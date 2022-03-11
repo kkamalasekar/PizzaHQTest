@@ -1,7 +1,5 @@
 using System;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
@@ -25,9 +23,19 @@ namespace PizzaHQTest
             loginPage.ClickLoginButton();
 
             //Assert
-            Assert.AreEqual(expected: "Your login was unsuccessful - please try again", actual: loginPage.GetAlertContent(), "Alert content did not match");
+            // SUGGESTION: wrap so it doesn't go longer than 110 characters. Also aligning expected and
+            // actual reads well. If we're going to wrap some arguments, we should wrap them all.
+            Assert.AreEqual(expected: "Your login was unsuccessful - please try again",
+                            actual: loginPage.GetAlertContent(),
+                            "Alert content did not match");
             loginPage.CloseAlert();
-            Assert.AreEqual(expected: false, actual: loginPage.IsAlertContentDisplayed(), "Alert message is not closed and still being displayed");
+
+            // SUGGESTION: I would break these assertions into 2 tests. Generally I base this on whether
+            // we have to do more actions. In this case, you have to close the alert. It tightly binds these
+            // two things together. Would be better as 2 separate tests that aren't related.
+            Assert.AreEqual(expected: false,
+                            actual: loginPage.IsAlertContentDisplayed(),
+                            "Alert message is not closed and still being displayed");
         }
 
         [TestInitialize]

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 
 namespace PizzaHQTest
 {
     internal class LoginPage
     {
-        private ChromeDriver driver;
-        private WebDriverWait wait;
+        private readonly ChromeDriver driver;
+        private readonly WebDriverWait wait;
         public LoginPage(ChromeDriver driver, WebDriverWait wait)
         {
             this.driver = driver;
@@ -25,10 +21,13 @@ namespace PizzaHQTest
 
         internal void ClickLoginButton()
         {
+            // Oh? Did normal Selenium clicking not work? This is good if there was something blocking you
+            // I am just surprised normal clicks didn't work.
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("arguments[0].click()", LoginButton);
         }
 
+        // SUGGESTION: A bit of formatting here.
         internal bool IsAlertContentDisplayed()
         {
             return AlertContent.Displayed;
